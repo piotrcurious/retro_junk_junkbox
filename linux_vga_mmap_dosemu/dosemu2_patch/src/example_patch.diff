@@ -1,0 +1,12 @@
++ #include "vga_direct.h"
+...
+-    /* old init path */
++    if (vga_direct_init("/dev/vram", 0xb8000, 0x4000)) {
++        use_direct_vram = 1;
++    } else {
++        use_direct_vram = 0;
++    }
+...
+-    // old putchar path
++    if (use_direct_vram) vga_direct_putcell(row, col, ch, attr);
++    else old_draw_cell(row, col, ch, attr);
